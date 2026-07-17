@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+int w[11], p[11], n, x[11];  // Added array to store solution vector
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+int knap(int i, int m) {
+    if (i > n) return 0;  // FIXED: i > n instead of i==n
+    if (w[i] > m) return knap(i + 1, m);
+    
+    // Include item i or exclude item i
+    int profit_included = knap(i + 1, m - w[i]) + p[i];
+    int profit_excluded = knap(i + 1, m);
+
+    // If including the item provides a better profit, include it
+    if (profit_included > profit_excluded) {
+        x[i] = 1;  // Mark item i as included
+        return profit_included;
+    } else {
+        x[i] = 0;  // Mark item i as excluded
+        return profit_excluded;
+    }
+}
+
+int main() {
+    int m, i, max_profit;
+    printf("\nEnter no. of objects: ");
+    scanf("%d", &n);
+    printf("\nEnter knapsack capacity: ");
+    scanf("%d", &m);
+    printf("\nEnter profit followed by weight:\n");
+    
+    for (i = 1; i <= n; i++) {
+        scanf("%d %d", &p[i], &w[i]);
+    }
+
+    // Call the knap function to calculate max profit and solve the knapsack
+    max_profit = knap(1, m);
+
+    printf("\nMax profit = %d", max_profit);
+    
+    // Print the solution vector
+    printf("\nSolution vector: ");
+    for (i = 1; i <= n; i++) {
+        printf("%d ", x[i]);  // Print 1 if item i is selected, otherwise 0
+    }
+
+    return 0;
+}
