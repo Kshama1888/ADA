@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include <time.h>
+//Function to perform selection sort
+void selectionSort(int arr[], int n) {
+int i, j, minIndex, temp;
+for(i = 0; i < n-1; i++){
+minIndex=i;
+for(j = i +1; j <n; j++) {
+if(arr[j]<arr[minIndex]){
+minIndex = j;
+}
+}
+//Swapthefoundminimumelementwiththefirstelement
+temp = arr[minIndex];
+arr[minIndex]=arr[i];
+arr[i] = temp;
+}
+}
+//Functiontogeneraterandomnumbersbetween 0 and 999
+int generateRandomNumber() {
+return rand() % 10;
+}
+int main() {
+//Setnvalue
+int n;
+printf("Enter the n value\n");
+scanf("%d",&n);
+// Allocate memoryforthe array
+int* arr=(int*)malloc(n * sizeof(int));
+//Generate random elements for the array
+srand(time(NULL));
+printf("Random numbers for n=%d:\n",n);
+for (int i = 0; i < n; i++) {
+arr[i]=generateRandomNumber();
+printf("%d ", arr[i]);
+}
+printf("\n");
+//Recordthestarttime
+clock_t start= clock();
+
+//Performselectionsort
+selectionSort(arr, n);
+//Recordtheendtime
+clock_t end= clock();
+//Calculatethetimetakenfor sorting
+double time_taken=((double)(end-start)) / CLOCKS_PER_SEC;
+//Output the time taken to sort for the current value of n
+printf("\nTime taken tosort forn=%d: %lfseconds\n\n", n, time_taken);
+// Displaysorted numbers
+printf("Sorted numbers for n=%d:\n",n); for
+(int i = 0; i < n; i++) {
+printf("%d",arr[i]);
+}
+printf("\n\n");
+//Free the dynamically allocated memory
+free(arr);
+return 0;
+}
+
+python code:
+import matplotlib.pyplot as plt
+
+#data collected
+n_values=[6000,7000,8000,9000,10000]
+time_taken=[0.031000,0.034000,0.047000,0.052000,0.077000]
+
+plt.plot(n_values, time_taken, marker='0')
+plt.title('Selection Sort Time Complexity')
+plt.xlabel('Number of Elements (n)')
+plt.ylabel('Time Taken (seconds)')
+plt.grid(True)
+plt.show()
